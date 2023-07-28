@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\VideosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(IndexController::class)->group(function (){
-   Route::get('/','index');
+Route::controller(IndexController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+});
+
+Route::controller(VideosController::class)->prefix('videos')->group(function () {
+    Route::post('/', 'store')->name('videos.store');
+    Route::get('/create', 'create')->name('videos.create');
 });

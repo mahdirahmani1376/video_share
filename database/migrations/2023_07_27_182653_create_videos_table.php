@@ -11,9 +11,10 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->text('url');
-            $table->integer('length');
+            $table->integer('length')->nullable();
             $table->string('slug', 128)->unique();
             $table->text('description')->nullable();
+            $table->text('thumbnail');
             $table->timestamps();
         });
     }

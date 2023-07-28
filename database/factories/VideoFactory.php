@@ -24,10 +24,11 @@ class VideoFactory extends Factory
 
         return [
             'name' => $this->faker->name(),
-            'url' =>$this->faker->imageUrl(446, 240, 'animals', true), 
+            'url' =>$this->faker->imageUrl(446, 240, 'animals', true),
             'length' => $this->faker->randomNumber(3),
             'slug' => $this->faker->slug(),
-            'description' => $this->faker->realText()
+            'description' => $this->faker->realText(),
+            'thumbnail' => 'https://loremflickr.com/446/240/world?random=' . rand(1, 99)
         ];
     }
 }
