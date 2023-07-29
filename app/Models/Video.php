@@ -12,11 +12,11 @@ class Video extends Model
     use HasFactory;
 
     protected $guarded = [];
-
-    public function lenght(): Attribute
+    public function lengthInHuman()
     {
         return Attribute::make(
             get: fn($value) => gmdate('i:s', $value),
+
         );
     }
 
@@ -25,5 +25,15 @@ class Video extends Model
         return Attribute::make(
             get: fn($value) => (new Verta($value))->formatDifference(),
         );
+    }
+
+    public function relatedVideos(int $count=10)
+    {
+        return Video::inRandomOrder()->take($count)->get();
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

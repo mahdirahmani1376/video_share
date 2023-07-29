@@ -2,11 +2,14 @@
     <div class="video-item">
         <div class="thumb">
             <div class="hover-efect"></div>
-            <small class="time">{{ $video->lenght }}</small>
-            <a href="#"><img src="{{ $video->thumbnail }}" alt=""></a>
+            <small class="time">{{ $video->lengthInHuman }}</small>
+            <a href="{{ route('videos.show',$video) }}"><img src="{{ $video->thumbnail }}" alt=""></a>
         </div>
         <div class="video-info">
-            <a href="#" class="title"> {{ $video->title }} </a>
+            <a href="{{ route('videos.show',$video) }}" class="title"> {{ $video->title }} </a>
+            <a href="{{ route('videos.edit', $video) }}">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
             <a class="channel-name" href="#">مهرداد سامی<span>
                             <i class="fa fa-check-circle"></i></span></a>
             <span class="views"><i class="fa fa-eye"></i>2.8M بازدید </span>
