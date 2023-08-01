@@ -6,13 +6,16 @@ use Hekmatinasser\Verta\Verta;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Video extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
-    public function lengthInHuman()
+
+    public function lengthInHuman(): Attribute
     {
         return Attribute::make(
             get: fn($value) => gmdate('i:s', $value),
@@ -27,13 +30,28 @@ class Video extends Model
         );
     }
 
-    public function relatedVideos(int $count=10)
+    public function relatedVideos(int $count = 6)
     {
-        return Video::inRandomOrder()->take($count)->get();
+        return $this
+            ->where('category_id' , $this->category_id,)
+            ->whereNot('id', $this->id)
+            ->inRandomOrder()->get()->take($count);
     }
 
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value
+        );
     }
 }

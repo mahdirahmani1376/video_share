@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryVideoController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\VideosController;
 use Illuminate\Support\Facades\Route;
@@ -26,4 +27,8 @@ Route::controller(VideosController::class)->prefix('videos')->group(function () 
     Route::get('/{video}/edit','edit')->name('videos.edit');
     Route::put('{video}/update','update')->name('videos.update');
     Route::delete('/{video}','destroy')->name('videos.destroy');
+});
+
+Route::controller(CategoryVideoController::class)->prefix('categories')->group(function () {
+    Route::get('/{category}/videos','index')->name('category.videos.index');
 });

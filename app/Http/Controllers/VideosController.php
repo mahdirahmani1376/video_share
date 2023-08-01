@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVideoRequest;
+use App\Http\Requests\UpdateVideoRequest;
+use App\Models\Category;
 use App\Models\Video;
 use Illuminate\Http\Request;
 
@@ -27,19 +29,26 @@ class VideosController extends Controller
 
     public function show(Video $video)
     {
-        return view('videos.show',compact('video'));
+        $categories = Category::all();
+        return view('videos.show',compact('video','categories'));
     }
 
     public function edit(Video $video)
     {
-        return view('videos.edit',compact('video'));
+        $categories = Category::all();
+
+        return view('videos.edit',compact('video','categories'));
     }
 
-    public function update(Request $request, Video $video)
+    public function update(UpdateVideoRequest $request, Video $video)
     {
+        $video->update($request->validated());
+
+        return redirect()->route('videos.show',$video)->with('success', __('messages.success'));
     }
 
     public function destroy(Video $video)
     {
+        $video->delete();
     }
 }

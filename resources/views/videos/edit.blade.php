@@ -27,6 +27,18 @@
                             <input type="text" name="url" class="form-control" value="{{ $video->url  }}" placeholder="آدرس ویدیو">
                         </div>
                         <div class="col-md-6">
+                            <label>دسته بندی</label>
+                            <label for="category">
+                                <select class="form-control" name="category_id" id="category">
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" {{ $category->id === $video->category_id ? 'selected' : ''}}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
                             <label>تصویر بند‌انگشتی</label>
                             <input type="text" name="thumbnail" class="form-control" value="{{ $video->thumbnail }}" placeholder="تصویر بند انگشتی">
                         </div>
