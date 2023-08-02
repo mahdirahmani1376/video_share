@@ -19,7 +19,10 @@
         href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800|Raleway:400,500,700|Roboto:300,400,500,700,900|Ubuntu:300,300i,400,400i,500,500i,700"
         rel="stylesheet">
     <!-- Main CSS -->
-    @vite(['resources/css/app.css','resources/js/app.js'])
+    @vite([
+    'resources/css/app.css',
+    'resources/js/app.js'
+    ])
     <!-- Responsive CSS -->
 {{--    <link rel="stylesheet" href="{{ asset('css/main.css') }}">--}}
 

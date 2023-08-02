@@ -34,10 +34,6 @@ Route::controller(CategoryVideoController::class)->prefix('categories')->group(f
     Route::get('/{category}/videos','index')->name('category.videos.index');
 });
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
