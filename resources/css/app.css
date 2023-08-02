@@ -1,0 +1,6 @@
+@import "bootstrap.min.css";
+@import "responsive.css";
+@import "style.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

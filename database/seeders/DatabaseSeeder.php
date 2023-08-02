@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            VideoSeeder::class,
             CategorySeeder::class,
+            VideoSeeder::class,
         ]);
     }
 }
