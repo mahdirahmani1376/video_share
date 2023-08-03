@@ -54,4 +54,17 @@ class Video extends Model
             get: fn($value) => $value
         );
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
+
+    protected function ownerName(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, array $attributes) => $this->user?->name,
+            set: fn($value) => $value,
+        );
+    }
 }

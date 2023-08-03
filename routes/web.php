@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::controller(IndexController::class)->group(function () {
-    Route::get('/', 'index')->name('home');
+    Route::get('/', 'index')->name('index');
 });
 
 Route::controller(VideosController::class)->prefix('videos')->group(function () {
@@ -31,7 +31,7 @@ Route::controller(VideosController::class)->prefix('videos')->group(function () 
 });
 
 Route::controller(CategoryVideoController::class)->prefix('categories')->group(function () {
-    Route::get('/{category}/videos','index')->name('category.videos.index');
+    Route::get('/{category}/videos','index')->name('categories.videos.index');
 });
 
 Route::get('/dashboard', function () {

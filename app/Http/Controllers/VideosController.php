@@ -17,14 +17,15 @@ class VideosController extends Controller
 
     public function create()
     {
-        return view('videos.create');
+        $categories = Category::all();
+        return view('videos.create',compact('categories'));
     }
 
     public function store(StoreVideoRequest $request)
     {
-        $video = Video::create($request->validated());
+        $video = auth()->user()->videos()->create($request->validated());
 
-        return redirect()->route('home')->with('success', __('messages.success'));
+        return redirect()->route('index')->with('success', __('messages.success'));
     }
 
     public function show(Video $video)
