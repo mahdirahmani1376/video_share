@@ -5,7 +5,7 @@ import './imagesloaded.pkgd.min.js';
 import './jquery.sticky-kit.min.js';
 import './jquery-3.2.1.min.js';
 import './smooth-scroll.min.js';
-import './bootstrap.min.js'
+import './bootstrap.min.js';
 
 import Alpine from 'alpinejs';
 
