@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Video::class, 'user_id');
     }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'user_id');
+    }
 }

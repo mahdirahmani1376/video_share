@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryVideoController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VideosController;
@@ -32,26 +33,16 @@ Route::controller(VideosController::class)->prefix('videos')->group(function () 
 });
 
 Route::controller(CategoryVideoController::class)->prefix('categories')->group(function () {
-    Route::get('/{category}/videos','index')->name('categories.videos.index');
-});
-
-Route::get('email-verify',function (){
-    $user = \App\Models\User::first();
-    return \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\VerifyEmailMail($user));
-});
-
-Route::get('unsubscribe/{user}',function (User $user){
-    dd(request()->hasValidRelativeSignature());
-    return 'pass';
-})->name('unsubscribe');
-
-Route::get('/signed',function (){
-   return \Illuminate\Support\Facades\URL::signedRoute('unsubscribe',User::find(1));
+    Route::get('/{category}/videos','index')->name('category.videos.index');
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::controller(CommentController::class)->group(function () {
+   Route::post('/videos/{video}/comments','store')->name('videos.comments.store');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

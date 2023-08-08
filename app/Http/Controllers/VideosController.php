@@ -31,6 +31,7 @@ class VideosController extends Controller
     public function show(Video $video)
     {
         $categories = Category::all();
+        $video = $video->load('comments');
         return view('videos.show',compact('video','categories'));
     }
 

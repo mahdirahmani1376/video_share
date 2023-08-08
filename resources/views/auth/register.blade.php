@@ -5,7 +5,7 @@
 
         <div id="log-in-head">
             <h1>ثبت نام</h1>
-            <div id="logo"><a href="{{ route('index') }}"><img src="img/logo.png" alt=""></a></div>
+            <div id="logo"><a href="{{ route('index') }}"><img src="{{asset('videoposthtml/img/logo.png')}}" alt=""></a></div>
         </div>
 
         <div class="form-output">

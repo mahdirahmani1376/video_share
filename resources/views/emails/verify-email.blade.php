@@ -1,12 +1,8 @@
-<x-mail::message>
-    # Order Shipped
+@component('mail::message')
+    @component('mail::button', ['url' => $url])
+        Verify Email
+    @endcomponent
 
-    Your order has been shipped!
-
-    <x-mail::button :url="$url">
-        View Order
-    </x-mail::button>
-
-    Thanks,<br>
+    Thanks
     {{ config('app.name') }}
-</x-mail::message>
+@endcomponent

@@ -59,38 +59,29 @@
                 <div id="comments" class="post-comments">
                     <h3 class="post-box-title"><span>19</span> نظرات</h3>
                     <ul class="comments-list">
-                        <li>
-                            <div class="post_author">
-                                <div class="img_in">
-                                    <a href="#"><img src="/demo_img/c1.jpg" alt=""></a>
+                        @foreach($video->comments as $comment)
+                            <li>
+                                <div class="post_author">
+                                    <div class="img_in">
+                                        <a href="#"><img src="{{asset('/demo_img/c1.jpg')}}" alt=""></a>
+                                    </div>
+                                    <a href="#" class="author-name">{{ $comment->user_id }}</a>
+                                    <time datetime="{{ $comment->created_at }}">{{ $comment->created_at_for_human }}</time>
                                 </div>
-                                <a href="#" class="author-name">داود طاهری</a>
-                                <time datetime="2017-03-24T18:18">مرداد 27, 1397 - 11:00</time>
-                            </div>
-                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است
-                            </p>
+                                <p>
+                                    {{ $comment->text }}
+                                </p>
 
 
-                        </li>
-                        <li>
-                            <div class="post_author">
-                                <div class="img_in">
-                                    <a href="#"><img src="/demo_img/c2.jpg" alt=""></a>
-                                </div>
-                                <a href="#" class="author-name">بهمن نجاتی</a>
-                                <time datetime="2017-03-24T18:18">مرداد 27, 1397 - 11:00</time>
-                            </div>
-                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است
-                            </p>
-                        </li>
+                            </li>
+                        @endforeach
 
                     </ul>
 
 
                     <h3 class="post-box-title">ارسال نظرات</h3>
-                    <form>
+                    <form action="{{ route('videos.comments.store',$video) }}" method="post">
+                        @csrf
                         <input type="text" class="form-control" id="Name" placeholder="نام">
                         <input type="email" class="form-control" id="Email" placeholder="ایمیل">
                         <input type="text" class="form-control" placeholder="سایت">

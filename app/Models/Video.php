@@ -67,4 +67,9 @@ class Video extends Model
             set: fn($value) => $value,
         );
     }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class,'video_id');
+    }
 }
