@@ -52,7 +52,7 @@
                     </div>
                     <a href="#" class="subscribe">مشاهده همه ویدیوهای داوود طاهری</a>
                 </div>
-                <!-- // Chanels Item -->
+                <!-- // Channels Item -->
 
 
                 <!-- Comments -->
@@ -78,16 +78,17 @@
 
                     </ul>
 
-
+                    @auth()
                     <h3 class="post-box-title">ارسال نظرات</h3>
-                    <form action="{{ route('videos.comments.store',$video) }}" method="post">
-                        @csrf
-                        <input type="text" class="form-control" id="Name" placeholder="نام">
-                        <input type="email" class="form-control" id="Email" placeholder="ایمیل">
-                        <input type="text" class="form-control" placeholder="سایت">
-                        <textarea class="form-control" rows="8" id="Message" placeholder="پیام"></textarea>
-                        <button type="button" id="contact_submit" class="btn btn-dm">ارسال پیام</button>
-                    </form>
+                        <form action="{{ route('videos.comments.store',$video) }}" method="post">
+                            @csrf
+                            <textarea class="form-control" rows="8" id="Message" placeholder="پیام" name="text"></textarea>
+                            <button type="submit" id="contact_submit" class="btn btn-dm">ارسال پیام</button>
+                        </form>
+                        @foreach($errors->all() as $e)
+                            <li class="">{{ $e }}</li>
+                        @endforeach
+					@endauth
                 </div>
                 <!-- // Comments -->
 
