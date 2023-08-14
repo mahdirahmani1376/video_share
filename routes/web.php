@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryVideoController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VideosController;
 use App\Models\User;
@@ -48,6 +49,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::controller(LikeController::class)->group(function (){
+   Route::post('{likeable_type}/{likeable_id}','like');
 });
 
 require __DIR__.'/auth.php';

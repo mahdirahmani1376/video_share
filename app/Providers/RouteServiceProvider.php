@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -35,6 +36,13 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+        });
+
+        $this->bind('likeable_id',function ($value,$route){
+            /* @var Model $modelName*/
+			$modelName = "\\App\Models\\" . ucfirst($route->parameters['likeable_type']);
+            $routeKey = (new $modelName)->getRouteKeyName();
+            return $modelName::query()->where($routeKey,$route->parameters['likeable_id'])->firstOrFail();
         });
     }
 }
