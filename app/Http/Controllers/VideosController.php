@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LikeEnum;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
 use App\Models\Category;
 use App\Models\Video;
-use Illuminate\Http\Request;
 
 class VideosController extends Controller
 {
@@ -32,7 +32,9 @@ class VideosController extends Controller
     {
         $categories = Category::all();
         $video = $video->load('comments');
-        return view('videos.show',compact('video','categories'));
+        $videoLikes = $video->likes()->where('vote',LikeEnum::LIKE->value)->count();
+        $videoDislikes = $video->likes()->where('vote',LikeEnum::DISLIKE->value)->count();
+        return view('videos.show',compact(['video','categories','videoLikes','videoDislikes']));
     }
 
     public function edit(Video $video)

@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LikeEnum;
 use App\Models\Like;
 use Illuminate\Database\Eloquent\Model;
 
 class LikeController extends Controller
 {
-
-    public function like(Model $model, int $vote)
+    public function like($likeable_type,$likeable_id)
     {
-        $like = Like::create([
-           'vote' => $vote,
-           'likeable_type' => $model::class,
-           'likeable_id' => $model->getKey(),
-           'user_id' => auth()->id()
-        ]);
+        $like = $likeable_id->likedBy(auth()->user());
 
-        return redirect()->back()->with('success', __('messages.your_comment_has_been_created_successfully'));
+        return redirect()->back();
     }
+
+
 }

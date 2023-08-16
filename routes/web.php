@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\CategoryVideoController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DislikeController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VideosController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,7 +34,7 @@ Route::controller(VideosController::class)->prefix('videos')->group(function () 
 });
 
 Route::controller(CategoryVideoController::class)->prefix('categories')->group(function () {
-    Route::get('/{category}/videos','index')->name('category.videos.index');
+    Route::get('/{category}/videos','index')->name('categories.videos.index');
 });
 
 Route::get('/dashboard', function () {
@@ -52,7 +52,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::controller(LikeController::class)->group(function (){
-   Route::post('{likeable_type}/{likeable_id}','like');
+   Route::get('likes/{likeable_type}/{likeable_id}','like')->name('like')->middleware('auth');
+});
+
+Route::controller(DislikeController::class)->group(function (){
+    Route::get('dislikes/{likeable_type}/{likeable_id}','dislike')->name('dislike')->middleware('auth');
 });
 
 require __DIR__.'/auth.php';

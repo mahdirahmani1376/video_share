@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LikeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -12,8 +13,7 @@ class Like extends Model
 
     protected $guarded = [];
 
-    public function likeable(): MorphTo
-    {
-        return $this->morphTo();
-    }
+    protected $casts = [
+        'vote' => LikeEnum::class
+    ];
 }

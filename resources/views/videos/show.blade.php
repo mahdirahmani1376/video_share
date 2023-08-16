@@ -21,8 +21,8 @@
 
                 <div class="video-share">
                     <ul class="like">
-                        <li><a class="deslike" href="">1250 <i class="fa fa-thumbs-down"></i></a></li>
-                        <li><a class="like" href="#">1250 <i class="fa fa-thumbs-up"></i></a></li>
+                        <li><a class="deslike" href={{ route('dislike',['likeable_type' => 'Video','likeable_id' => $video]) }}> {{ $videoDislikes }} <i class="fa fa-thumbs-down"></i></a></li>
+                        <li><a class="like" href="{{ route('like',['likeable_type' => 'Video','likeable_id' => $video]) }}"> {{ $videoLikes }} <i class="fa fa-thumbs-up"></i></a></li>
                     </ul>
                     <ul class="social_link">
                         <li><a class="facebook" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
