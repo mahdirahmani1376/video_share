@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->integer('length')->nullable();
             $table->string('slug', 128)->unique();
             $table->text('description')->nullable();
-            $table->text('thumbnail');
+            $table->text('thumbnail')->nullable();
             $table->timestamps();
         });
     }

@@ -7,6 +7,7 @@ use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
 use App\Models\Category;
 use App\Models\Video;
+use Illuminate\Support\Facades\Storage;
 
 class VideosController extends Controller
 {
@@ -23,9 +24,19 @@ class VideosController extends Controller
 
     public function store(StoreVideoRequest $request)
     {
-        $video = auth()->user()->videos()->create($request->validated());
+        $data = $request->validated();
+        $file = $request->file('file');
+        $url = Storage::disk('public')->putFile($file);
+        $data['url'] = $url;
 
-        return redirect()->route('index')->with('success', __('messages.success'));
+        $video = auth()->user()->videos()->create([
+            'url' => $data['url'],
+            'name' => $data['name'],
+            'slug' => $data['slug'],
+            'category_id' => $data['category_id']
+        ]);
+
+        return redirect()->route('videos.show',$video)->with('success', __('messages.video_created_successfully'));
     }
 
     public function show(Video $video)
