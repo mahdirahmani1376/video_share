@@ -11,11 +11,11 @@ class UpdateVideoRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'url' => ['required'],
-            'length' => ['nullable', 'integer'],
+            'file' => ['nullable','file','mimetypes:video/mp4'],
+//            'length' => ['nullable', 'integer'],
             'slug' => ['required','alpha_dash',Rule::unique('videos','slug')->ignore($this->video)],
             'description' => ['nullable'],
-            'thumbnail' => ['required'],
+//            'thumbnail' => ['required'],
             'category_id' => ['nullable','integer']
         ];
     }

@@ -4,12 +4,11 @@
         <!-- Watch -->
         <div class="col-md-8">
             <div id="watch">
-
                 <!-- Video Player -->
                 <h1 class="video-title">{{ $video->name }}</h1>
                 <div class="video-code">
                     <video controls style="height: 100%; width: 100%;">
-                        <source src="{{ $video->url }}" type="video/mp4">
+                        <source src="{{ $video->video_url }}" type="video/mp4">
                     </video>
                 </div><!-- // video-code -->
 

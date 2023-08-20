@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use App\Traits\Likeable;
+use Illuminate\Support\Facades\Storage;
 
 class Video extends Model
 {
@@ -23,6 +24,13 @@ class Video extends Model
         return Attribute::make(
             get: fn($value) => gmdate('i:s', $value),
 
+        );
+    }
+
+    protected function videoUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, array $attributes) => '/storage/' . $this->attributes['path'],
         );
     }
 

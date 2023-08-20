@@ -7,6 +7,7 @@ use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
 use App\Models\Category;
 use App\Models\Video;
+use App\Services\FFmpegAdapter;
 use Illuminate\Support\Facades\Storage;
 
 class VideosController extends Controller
@@ -22,21 +23,24 @@ class VideosController extends Controller
         return view('videos.create',compact('categories'));
     }
 
-    public function store(StoreVideoRequest $request)
+    public function store(StoreVideoRequest $request,FFmpegAdapter $ffmpegAdapter)
     {
         $data = $request->validated();
+
         $file = $request->file('file');
         $url = Storage::disk('public')->putFile($file);
-        $data['url'] = $url;
+        $data['path'] = $url;
+        $videoDuration = $ffmpegAdapter->getDuration($data['path']);
 
         $video = auth()->user()->videos()->create([
-            'url' => $data['url'],
+            'path' => $data['path'],
             'name' => $data['name'],
             'slug' => $data['slug'],
-            'category_id' => $data['category_id']
+            'category_id' => $data['category_id'],
+            'length' => $videoDuration
         ]);
 
-        return redirect()->route('videos.show',$video)->with('success', __('messages.video_created_successfully'));
+        return redirect()->route('videos.show',$video)->with('alert', __('messages.video_created_successfully'));
     }
 
     public function show(Video $video)
@@ -55,11 +59,22 @@ class VideosController extends Controller
         return view('videos.edit',compact('video','categories'));
     }
 
-    public function update(UpdateVideoRequest $request, Video $video)
+    public function update(UpdateVideoRequest $request, Video $video, FFmpegAdapter $ffmpegAdapter)
     {
-        $video->update($request->validated());
+        $data = $request->safe();
 
-        return redirect()->route('videos.show',$video)->with('success', __('messages.success'));
+        if ($request->file('file')){
+            $url = Storage::disk('public')->putFile($request->file('file'));
+            $length = $ffmpegAdapter->getDuration($url);
+            $data->merge([
+                'path' => $url,
+                'length' => $length
+            ]);
+        }
+
+        $video->update($data->except('file'));
+
+        return redirect()->route('videos.show',$video)->with('alert', __('messages.video_updated_successfully'));
     }
 
     public function destroy(Video $video)

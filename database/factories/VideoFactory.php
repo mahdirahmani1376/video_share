@@ -25,7 +25,7 @@ class VideoFactory extends Factory
 
         return [
             'name' => $this->faker->name,
-            'url' =>$this->faker->imageUrl(446, 240, 'animals', true),
+            'path' =>$this->faker->imageUrl(446, 240, 'animals', true),
             'length' => $this->faker->randomNumber(3),
             'slug' => $this->faker->slug(),
             'description' => $this->faker->realText(),
