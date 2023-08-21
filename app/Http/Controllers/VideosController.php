@@ -23,19 +23,23 @@ class VideosController extends Controller
         return view('videos.create',compact('categories'));
     }
 
-    public function store(StoreVideoRequest $request,FFmpegAdapter $ffmpegAdapter)
+    public function store(StoreVideoRequest $request)
     {
         $data = $request->validated();
 
         $file = $request->file('file');
         $url = Storage::disk('public')->putFile($file);
+        $ffmpegAdapter = new FFmpegAdapter($url);
+
         $data['path'] = $url;
-        $videoDuration = $ffmpegAdapter->getDuration($data['path']);
+        $videoDuration = $ffmpegAdapter->getDuration();
+        $thumbnail = $ffmpegAdapter->getFrame();
 
         $video = auth()->user()->videos()->create([
             'path' => $data['path'],
             'name' => $data['name'],
             'slug' => $data['slug'],
+            'thumbnail' => $thumbnail,
             'category_id' => $data['category_id'],
             'length' => $videoDuration
         ]);
@@ -59,16 +63,17 @@ class VideosController extends Controller
         return view('videos.edit',compact('video','categories'));
     }
 
-    public function update(UpdateVideoRequest $request, Video $video, FFmpegAdapter $ffmpegAdapter)
+    public function update(UpdateVideoRequest $request, Video $video)
     {
         $data = $request->safe();
-
         if ($request->file('file')){
             $url = Storage::disk('public')->putFile($request->file('file'));
-            $length = $ffmpegAdapter->getDuration($url);
+            $ffmpegAdapter = new FFmpegAdapter($url);
+
             $data->merge([
                 'path' => $url,
-                'length' => $length
+                'length' => $ffmpegAdapter->getDuration(),
+                'thumbnail' => $ffmpegAdapter->getFrame(),
             ]);
         }
 

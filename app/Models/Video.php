@@ -22,7 +22,7 @@ class Video extends Model
     public function lengthInHuman(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => gmdate('i:s', $value),
+            get: fn($value) => gmdate('i:s', $this->length),
 
         );
     }
@@ -31,6 +31,14 @@ class Video extends Model
     {
         return Attribute::make(
             get: fn($value, array $attributes) => '/storage/' . $this->attributes['path'],
+        );
+    }
+
+    protected function thumbnailUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, array $attributes) => '/storage/' . $this->attributes['thumbnail'],
+            set: fn($value) => $value,
         );
     }
 

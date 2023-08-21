@@ -14,11 +14,6 @@
                             <input name="name" type="text" class="form-control" value="{{ old('name') }}"
                                 placeholder="@lang('videos.name')">
                         </div>
-{{--                        <div class="col-md-6">--}}
-{{--                            <label>@lang('videos.length')</label>--}}
-{{--                            <input type="text" name="length" class="form-control" value="{{ old('length') }}"--}}
-{{--                                placeholder="@lang('videos.length')">--}}
-{{--                        </div>--}}
                         <div class="col-md-6">
                             <label>نام یکتا</label>
                             <input type="text" name="slug" class="form-control" value="{{ old('slug') }}"
@@ -29,12 +24,6 @@
                             <input type="file" name="file" class="form-control" value="{{ old('url') }}"
                                 placeholder="آدرس ویدیو">
                         </div>
-{{--                        <div class="col-md-6">--}}
-{{--                            <label>تصویر بند‌انگشتی</label>--}}
-{{--                            <input type="text" name="thumbnail" class="form-control" value="{{ old('thumbnail') }}"--}}
-{{--                                placeholder="تصویر بند انگشتی">--}}
-{{--                        </div>--}}
-
                         <div class="col-md-6">
                             <label>دسته‌بندی</label>
                             <select class="form-control" name="category_id" id="category">
