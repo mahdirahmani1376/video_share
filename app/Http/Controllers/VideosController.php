@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Video\CreateVideoAction;
+use App\Actions\Video\UpdateVideoAction;
 use App\Enums\LikeEnum;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
@@ -23,26 +25,10 @@ class VideosController extends Controller
         return view('videos.create',compact('categories'));
     }
 
-    public function store(StoreVideoRequest $request)
+    public function store(StoreVideoRequest $request,CreateVideoAction $createVideoAction)
     {
         $data = $request->validated();
-
-        $file = $request->file('file');
-        $url = Storage::disk('public')->putFile($file);
-        $ffmpegAdapter = new FFmpegAdapter($url);
-
-        $data['path'] = $url;
-        $videoDuration = $ffmpegAdapter->getDuration();
-        $thumbnail = $ffmpegAdapter->getFrame();
-
-        $video = auth()->user()->videos()->create([
-            'path' => $data['path'],
-            'name' => $data['name'],
-            'slug' => $data['slug'],
-            'thumbnail' => $thumbnail,
-            'category_id' => $data['category_id'],
-            'length' => $videoDuration
-        ]);
+        $video = $createVideoAction->execute(auth()->user(),$data);
 
         return redirect()->route('videos.show',$video)->with('alert', __('messages.video_created_successfully'));
     }
@@ -63,21 +49,10 @@ class VideosController extends Controller
         return view('videos.edit',compact('video','categories'));
     }
 
-    public function update(UpdateVideoRequest $request, Video $video)
+    public function update(UpdateVideoRequest $request, Video $video,UpdateVideoAction $updateVideoAction)
     {
-        $data = $request->safe();
-        if ($request->file('file')){
-            $url = Storage::disk('public')->putFile($request->file('file'));
-            $ffmpegAdapter = new FFmpegAdapter($url);
-
-            $data->merge([
-                'path' => $url,
-                'length' => $ffmpegAdapter->getDuration(),
-                'thumbnail' => $ffmpegAdapter->getFrame(),
-            ]);
-        }
-
-        $video->update($data->except('file'));
+        $data = $request->validated();
+        $video = $updateVideoAction->execute($video,$data);
 
         return redirect()->route('videos.show',$video)->with('alert', __('messages.video_updated_successfully'));
     }
