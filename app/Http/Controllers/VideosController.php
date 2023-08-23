@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Storage;
 
 class VideosController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Video::class,'video');
+    }
+
     public function index()
     {
         $videos = Video::latest()->take(6)->get();
@@ -39,10 +44,8 @@ class VideosController extends Controller
     public function show(Video $video)
     {
         $categories = Category::all();
-        $video = $video->load('comments');
-        $videoLikes = $video->likes()->where('vote',LikeEnum::LIKE->value)->count();
-        $videoDislikes = $video->likes()->where('vote',LikeEnum::DISLIKE->value)->count();
-        return view('videos.show',compact(['video','categories','videoLikes','videoDislikes']));
+        $video = $video->load('comments.user');
+        return view('videos.show',compact(['video','categories']));
     }
 
     public function edit(Video $video)

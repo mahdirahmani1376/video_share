@@ -29,6 +29,11 @@ class Comment extends Model
         return $this->morphMany(Like::class,'likeable');
     }
 
+    public function video(): BelongsTo
+    {
+        return $this->belongsTo(Video::class,'video_id');
+    }
+
     protected function createdAtForHuman(): Attribute
     {
         return Attribute::make(

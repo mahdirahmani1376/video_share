@@ -2,8 +2,10 @@
 
 namespace App\Observers;
 
+use App\Enums\LikeEnum;
 use App\Models\Like;
 use App\Notifications\ResourceLikedNotification;
+use Illuminate\Support\Facades\Cache;
 
 class LikeObserver
 {
@@ -13,7 +15,8 @@ class LikeObserver
      */
     public function created(Like $like): void
     {
-//		$like->likeable->user->notify(new ResourceLikedNotification($like));
+        Cache::forget($like->likeable->cacheLikeKey());
+        Cache::forget($like->likeable->cacheDislikeKey());
     }
 
     public function updated(Like $like): void

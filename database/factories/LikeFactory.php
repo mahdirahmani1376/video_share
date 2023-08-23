@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\LikeEnum;
 use App\Models\Like;
 use App\Models\User;
 use App\Models\Video;
@@ -17,6 +18,7 @@ class LikeFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first() ?? User::factory(),
+            'vote' => LikeEnum::LIKE,
             'likeable_id' => Video::factory(),
             'likeable_type' => Video::class,
             'created_at' => Carbon::now(),
